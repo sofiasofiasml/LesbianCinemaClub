@@ -1,0 +1,184 @@
+:root {
+  --burgundy: #3a0d1c;
+  --burgundy-deep: #240710;
+  --cherry: #c1224a;
+  --rose: #e8b4b8;
+  --cream: #f6ead6;
+  --charcoal: #141012;
+  --gold: #d9a441;
+
+  --font-title: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'DM Sans', 'Montserrat', system-ui, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, 'Courier New', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: radial-gradient(ellipse at 50% -10%, var(--burgundy) 0%, var(--burgundy-deep) 55%, var(--charcoal) 100%) fixed;
+  color: var(--cream);
+  font-family: var(--font-body);
+  line-height: 1.55;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app {
+  position: relative;
+  min-height: 100dvh;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rose);
+  display: block;
+}
+.label.dim {
+  opacity: 0.7;
+}
+.label.small {
+  font-size: 0.6rem;
+}
+
+/* Grano analógico */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.09;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 0.6s steps(4) infinite;
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-3%, 2%); }
+  50% { transform: translate(2%, -3%); }
+  75% { transform: translate(-2%, -1%); }
+  100% { transform: translate(3%, 3%); }
+}
+
+/* Botones */
+.btn {
+  display: block;
+  width: 100%;
+  min-height: 52px;
+  padding: 0.85rem 1.4rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--cream);
+  background: transparent;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  font-size: 0.82rem;
+  transition: transform 0.15s, background 0.2s, box-shadow 0.2s;
+}
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+.btn.primary {
+  background: var(--cherry);
+  border-color: var(--cherry);
+  color: var(--cream);
+  box-shadow: 0 6px 24px rgba(193, 34, 74, 0.45);
+}
+.btn.primary:hover:not(:disabled) {
+  background: #d62a57;
+}
+.btn.big {
+  font-size: 0.95rem;
+  padding: 1.1rem 1.6rem;
+  max-width: 340px;
+}
+.btn.ghost {
+  border-color: var(--rose);
+  color: var(--rose);
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.btn:focus-visible,
+.option:focus-visible,
+.sound-toggle:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.sound-toggle {
+  position: fixed;
+  top: max(10px, env(safe-area-inset-top));
+  right: 10px;
+  z-index: 40;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(246, 234, 214, 0.4);
+  background: rgba(20, 16, 18, 0.7);
+  backdrop-filter: blur(6px);
+}
+
+/* Cortinas de cine */
+.curtains {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: all;
+  display: flex;
+}
+.curtain {
+  flex: 1;
+  background: repeating-linear-gradient(90deg, #7a1230 0 14px, #5a0c22 14px 28px, #8b1738 28px 40px);
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.6);
+  animation-duration: 0.8s;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+}
+.curtain.left {
+  transform-origin: left;
+  animation-name: close-l, open-l;
+  animation-delay: 0s, 1s;
+  border-right: 3px solid var(--gold);
+}
+.curtain.right {
+  transform-origin: right;
+  animation-name: close-r, open-r;
+  animation-delay: 0s, 1s;
+  border-left: 3px solid var(--gold);
+}
+@keyframes close-l { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes close-r { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes open-l { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+@keyframes open-r { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .grain,
+  .marquee span,
+  .burst span,
+  .stamp {
+    animation: none !important;
+  }
+  .curtain {
+    animation-duration: 0.01s !important;
+  }
+}
